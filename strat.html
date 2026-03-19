@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>GSoC 2026 — Low Competition Guide</title>
+<style>
+/* ─── Reset ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  background: #0a0b0e;
+  color: #e8eaf0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  appearance: none;
+}
+input {
+  font-family: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+a { -webkit-tap-highlight-color: transparent; }
+
+/* ─── CSS Vars ───────────────────────────────────── */
+:root {
+  --bg:     #0a0b0e;
+  --bg2:    #111318;
+  --bg3:    #181c25;
+  --bg4:    #1e2330;
+  --b:      rgba(255,255,255,0.08);
+  --b2:     rgba(255,255,255,0.14);
+  --gold:   #f0b429;
+  --gdim:   rgba(240,180,41,0.12);
+  --t1:     #e8eaf0;
+  --t2:     #8b90a4;
+  --t3:     #4e5368;
+  --green:  #34d399;
+  --lime:   #a3e635;
+  --amber:  #fbbf24;
+  --r:      10px;
+  --rl:     14px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+/* ─── Hero ───────────────────────────────────────── */
+.hero {
+  padding: 52px 20px 40px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.hero-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--gdim);
+  border: 1px solid rgba(240,180,41,0.28);
+  border-radius: 4px;
+  padding: 4px 10px;
+  margin-bottom: 20px;
+}
+.pulse {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%      { opacity:.4; transform:scale(.75); }
+}
+.hero h1 {
+  font-size: clamp(26px, 7vw, 50px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin-bottom: 14px;
+}
+.hero h1 span { color: var(--gold); font-style: italic; }
+.hero-sub {
+  font-size: 15px;
+  color: var(--t2);
+  line-height: 1.7;
+  max-width: 520px;
+  margin-bottom: 28px;
+}
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.stat {
+  background: var(--bg3);
+  border: 1px solid var(--b2);
+  border-radius: var(--r);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.stat-n {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.stat-l {
+  font-size: 11px;
+  color: var(--t2);
+  line-height: 1.35;
+}
+
+/* ─── Deadline banner ────────────────────────────── */
+.deadline {
+  margin: 0 20px 24px;
+  max-width: 820px;
+  margin-left: auto;
+  margin-right: auto;
+  background: linear-gradient(135deg,rgba(240,180,41,.07),rgba(251,113,133,.05));
+  border: 1px solid rgba(240,180,41,.22);
+  border-radius: var(--r);
+  padding: 14px 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.deadline-body { flex: 1; min-width: 200px; font-size: 13px; color: var(--t2); line-height: 1.6; }
+.deadline-body strong { color: var(--gold); font-weight: 600; }
+.deadline-link {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+  background: var(--gdim);
+  border: 1px solid rgba(240,180,41,.3);
+  border-radius: 6px;
+  padding: 7px 14px;
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* ─── Legend ─────────────────────────────────────── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  align-items: center;
+  max-width: 860px;
+  margin: 0 auto 8px;
+  padding: 12px 20px;
+  font-size: 12px;
+  color: var(--t2);
+}
+.leg { display:flex; align-items:center; gap:6px; }
+.dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+/* ─── Sticky Controls ────────────────────────────── */
+.controls {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,11,14,0.94);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--b);
+  padding: 12px 20px;
+}
+.ctrl-wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+
+/* Search */
+.search-wrap { position: relative; }
+.search-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--t3); font-size:16px; pointer-events:none; line-height:1; }
+#search {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--b2);
+  border-radius: 8px;
+  color: var(--t1);
+  font-size: 15px;
+  padding: 10px 12px 10px 38px;
+  outline: none;
+  transition: border-color .2s;
+  display: block;
+}
+#search:focus { border-color: rgba(240,180,41,.45); }
+#search::placeholder { color: var(--t3); }
+
+/* Filter pills */
+.filter-scroll {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.filter-scroll::-webkit-scrollbar { display: none; }
+.fbtn {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--b2);
+  background: transparent;
+  color: var(--t2);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.fbtn.active { background: var(--gdim); color: var(--gold); border-color: rgba(240,180,41,.35); }
+
+/* Sort + count row */
+.sort-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.sort-lbl { font-size:10px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--t3); }
+#sort {
+  background: var(--bg3);
+  border: 1px solid var(--b2);
+  border-radius: 6px;
+  color: var(--t2);
+  font-size: 12px;
+  font-family: inherit;
+  padding: 5px 10px;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+#count { margin-left:auto; font-size:11px; color:var(--t3); font-variant-numeric: tabular-nums; }
+
+/* ─── Main grid ──────────────────────────────────── */
+.main { max-width: 860px; margin: 0 auto; padding: 20px 20px 80px; }
+.grid { display:flex; flex-direction:column; gap:10px; }
+
+/* ─── Card ───────────────────────────────────────── */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--b);
+  border-radius: var(--rl);
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.card.open { border-color: rgba(240,180,41,.2); }
+
+/* Card toggle button — the ENTIRE header row is a button */
+.card-toggle {
+  width: 100%;
+  text-align: left;
+  padding: 16px 16px 14px;
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  cursor: pointer;
+  outline: none;
+}
+.card-toggle:focus-visible { box-shadow: inset 0 0 0 2px rgba(240,180,41,.5); }
+
+.card-top { display:flex; align-items:flex-start; gap:10px; }
+
+.dbadge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+.card-info { flex:1; min-width:0; }
+.name-row { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-bottom:2px; }
+.card-name { font-size:15px; font-weight:700; color:var(--t1); line-height:1.2; }
+.first-chip {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(52,211,153,.12);
+  color: var(--green);
+  border: 1px solid rgba(52,211,153,.25);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.card-tagline { font-size:12px; color:var(--t2); line-height:1.4; }
+
+.card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+  min-width: 72px;
+}
+.comp-row { display:flex; align-items:center; gap:5px; }
+.cdot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.comp-text { font-size:10px; font-weight:600; }
+.diff-text { font-size:10px; color:var(--t3); }
+.chevron { font-size:14px; color:var(--t3); margin-top:2px; transition: transform .25s, color .25s; display:block; }
+.card.open .chevron { transform:rotate(180deg); color:var(--gold); }
+
+/* Tags row */
+.card-tags { display:flex; flex-wrap:wrap; gap:5px; }
+.tag {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--bg4);
+  color: var(--t3);
+  border: 1px solid var(--b);
+  letter-spacing: .02em;
+}
+.comp-tag {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* ─── Card body ──────────────────────────────────── */
+.card-body {
+  display: none;
+  border-top: 1px solid var(--b);
+  padding: 18px 16px 20px;
+  background: var(--bg3);
+}
+.card.open .card-body { display: block; }
+
+.body-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.body-desc {
+  font-size: 13px;
+  color: var(--t2);
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+.needs { list-style:none; display:flex; flex-direction:column; gap:8px; margin-bottom:16px; }
+.needs li {
+  font-size: 13px;
+  color: var(--t2);
+  line-height: 1.65;
+  padding-left: 16px;
+  position: relative;
+}
+.needs li::before { content:'▸'; position:absolute; left:0; color:var(--gold); font-size:10px; top:4px; }
+.body-link {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--gdim);
+  border: 1px solid rgba(240,180,41,.3);
+  border-radius: 6px;
+  padding: 9px 16px;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.body-link:active { background: rgba(240,180,41,.2); }
+
+/* ─── Empty state ────────────────────────────────── */
+.empty {
+  text-align:center;
+  padding:60px 20px;
+  color:var(--t3);
+  font-size:14px;
+}
+
+/* ─── Strategy section ───────────────────────────── */
+.strategy { max-width:860px; margin:0 auto; padding:0 20px 72px; }
+.sec-title {
+  font-size:20px;
+  font-weight:800;
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  letter-spacing:-0.01em;
+}
+.sec-title::before { content:''; display:inline-block; width:3px; height:20px; background:var(--gold); border-radius:2px; flex-shrink:0; }
+.strat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; }
+.sc {
+  background: var(--bg2);
+  border: 1px solid var(--b);
+  border-radius: var(--rl);
+  padding: 16px;
+}
+.sc-num { font-size:10px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--gold); margin-bottom:7px; }
+.sc-title { font-size:14px; font-weight:700; margin-bottom:6px; color:var(--t1); }
+.sc-desc { font-size:12px; color:var(--t2); line-height:1.7; }
+
+/* ─── Scroll-to-top ──────────────────────────────── */
+#totop {
+  position: fixed;
+  bottom: calc(20px + var(--safe-b));
+  right: 20px;
+  width: 40px; height: 40px;
+  background: var(--bg4);
+  border: 1px solid var(--b2);
+  border-radius: 50%;
+  color: var(--t2);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+  z-index: 200;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  cursor: pointer;
+  line-height: 1;
+}
+#totop.show { opacity:1; pointer-events:auto; }
+#totop:active { background: var(--gdim); }
+
+/* ─── Mobile tweaks ──────────────────────────────── */
+@media (max-width:600px) {
+  .hero { padding:36px 16px 28px; }
+  .hero h1 { font-size:26px; }
+  .hero-sub { font-size:14px; }
+  .stats { gap:8px; }
+  .stat { padding:8px 12px; }
+  .stat-n { font-size:18px; }
+  .deadline { margin:0 16px 20px; }
+  .controls { padding:10px 16px; }
+  .main { padding:16px 16px 72px; }
+  .strategy { padding:0 16px 72px; }
+  .legend { padding:10px 16px; }
+  .card-toggle { padding:14px 14px 12px; }
+  .card-body { padding:16px 14px 18px; }
+  .card-right { display:none; }
+  .comp-tag { display:inline-flex !important; }
+}
+@media (max-width:380px) {
+  .hero h1 { font-size:23px; }
+  .strat-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-chip"><span class="pulse"></span>GSoC 2026 · Strategy Guide</div>
+  <h1>Win GSoC by targeting the<br><span>least competitive</span> orgs</h1>
+  <p class="hero-sub">30 hand-picked organizations with niche domains, specialized tech stacks, and low applicant density. Your odds: 1-in-10 instead of 1-in-300.</p>
+  <div class="stats">
+    <div class="stat"><span class="stat-n">30</span><span class="stat-l">Low-competition<br>orgs identified</span></div>
+    <div class="stat"><span class="stat-n">11</span><span class="stat-l">First-time in<br>GSoC 2026</span></div>
+    <div class="stat"><span class="stat-n">~185</span><span class="stat-l">Total orgs<br>participating</span></div>
+    <div class="stat"><span class="stat-n">Mar 31</span><span class="stat-l">Proposal<br>deadline</span></div>
+  </div>
+</section>
+
+<!-- DEADLINE -->
+<div class="deadline">
+  <div style="font-size:20px;flex-shrink:0;line-height:1">⚡</div>
+  <div class="deadline-body">
+    <strong>Application window open: March 16–31, 2026.</strong> Contact mentors before you submit — mentors who know your name accept proposals at much higher rates. Make one small PR to your chosen org first, even if it's just fixing a typo in the docs.
+  </div>
+  <a class="deadline-link" href="https://summerofcode.withgoogle.com/programs/2026/organizations" target="_blank" rel="noopener">Official GSoC Site ↗</a>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span style="color:var(--t3);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em">Competition:</span>
+  <span class="leg"><span class="dot" style="background:#34d399"></span>Very low</span>
+  <span class="leg"><span class="dot" style="background:#a3e635"></span>Low</span>
+  <span class="leg"><span class="dot" style="background:#fbbf24"></span>Moderate</span>
+  <span class="leg" style="margin-left:auto"><span style="color:var(--green)">★</span>&nbsp;= first-time org in GSoC 2026</span>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="ctrl-wrap">
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="search" id="search" placeholder="Search by name, language, topic…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    </div>
+    <div class="filter-scroll" id="filters">
+      <button class="fbtn active" data-filter="all">All (30)</button>
+      <button class="fbtn" data-filter="first">★ First-time</button>
+      <button class="fbtn" data-filter="science">Science &amp; Research</button>
+      <button class="fbtn" data-filter="systems">Systems / Low-level</button>
+      <button class="fbtn" data-filter="niche-lang">Niche Languages</button>
+      <button class="fbtn" data-filter="domain">Domain-specific</button>
+    </div>
+    <div class="sort-row">
+      <span class="sort-lbl">Sort</span>
+      <select id="sort">
+        <option value="comp">Competition (low → high)</option>
+        <option value="diff">Difficulty (low → high)</option>
+        <option value="alpha">A → Z</option>
+      </select>
+      <span id="count">30 orgs</span>
+    </div>
+  </div>
+</div>
+
+<!-- GRID -->
+<main class="main">
+  <div class="grid" id="grid" role="list"></div>
+  <div class="empty" id="empty" style="display:none">No organizations match. Try a different search term.</div>
+</main>
+
+<!-- STRATEGY -->
+<section class="strategy">
+  <h2 class="sec-title">Application strategy</h2>
+  <div class="strat-grid">
+    <div class="sc">
+      <div class="sc-num">Step 01</div>
+      <div class="sc-title">Target first-time orgs first</div>
+      <div class="sc-desc">Orgs marked ★ have zero historical community bias. No established insiders. No mentor favorites. You start on equal footing with literally everyone.</div>
+    </div>
+    <div class="sc">
+      <div class="sc-num">Step 02</div>
+      <div class="sc-title">Use the domain gap as a weapon</div>
+      <div class="sc-desc">Read one Wikipedia article about the org's field. Reference it in your first email to mentors. You instantly stand out from 90% of applicants who just say "I know Python."</div>
+    </div>
+    <div class="sc">
+      <div class="sc-num">Step 03</div>
+      <div class="sc-title">Make a PR before proposing</div>
+      <div class="sc-desc">Even a docs fix or a failing test counts. A contributor with a merged PR gets accepted at 3–5× higher rates than a cold applicant with a perfect proposal.</div>
+    </div>
+    <div class="sc">
+      <div class="sc-num">Step 04</div>
+      <div class="sc-title">Email mentors directly</div>
+      <div class="sc-desc">Find the mentor's email on the org's ideas page or GitHub. Ask one specific, thoughtful question about a project idea. Mentors who know your name favor your proposal.</div>
+    </div>
+    <div class="sc">
+      <div class="sc-num">Step 05</div>
+      <div class="sc-title">Submit 2 focused proposals</div>
+      <div class="sc-desc">Maximum is 3. Submit to 2 orgs you've actually contributed to. Two focused proposals beat three rushed ones — mentors can tell the difference instantly.</div>
+    </div>
+    <div class="sc">
+      <div class="sc-num">Step 06</div>
+      <div class="sc-title">Write weekly milestones</div>
+      <div class="sc-desc">Break your project into weekly deliverables with a clear timeline and a risk section. Mentors need to see you've thought it through, not just that you're enthusiastic.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SCROLL TO TOP -->
+<button id="totop" title="Back to top" aria-label="Back to top">↑</button>
+
+<script>
+// ─── Data ────────────────────────────────────────────────────────────
+var ORGS = [
+  {
+    id: 1,
+    name: "Gambit: Game Theory",
+    tagline: "Computation in game theory and strategic decision-making",
+    domain: "Science & Research", dc: "science",
+    dBg: "#0e1f3b", dColor: "#60a5fa",
+    tags: ["C++","Python","JavaScript","wxWidgets","Game theory"],
+    comp: 1, diff: 2, first: false,
+    filters: ["all","science"],
+    desc: "Gambit is the premier open-source platform for computing with game-theoretic models — Nash equilibria, extensive-form games, strategic-form games, and more. Very few GSoC applicants know what a Nash equilibrium or a game tree is, let alone how to implement algorithms for solving them. The math is real (linear programming, support enumeration, Lemke-Howson algorithm) but the mentors welcome students who genuinely do the homework. One of the safest niche picks on this list.",
+    needs: [
+      "Familiarity with game theory concepts: Nash equilibria, extensive-form games, mixed strategies",
+      "Strong C++ for core solvers; Python for scripting and API bindings",
+      "Interest in algorithmic economics or operations research is a massive differentiator",
+      "Typical project: new equilibrium-finding solvers, improved game tree visualization, better Python API, GUI improvements (wxWidgets)"
+    ]
+  },
+  {
+    id: 2,
+    name: "The OpenROAD Initiative",
+    tagline: "Open VLSI chip design automation — first-time GSoC 2026",
+    domain: "Systems / Low-level", dc: "systems",
+    dBg: "#1a0f30", dColor: "#a78bfa",
+    tags: ["C++","Python","Tcl","Verilog","EDA","VLSI"],
+    comp: 1, diff: 3, first: true,
+    filters: ["all","systems","first"],
+    desc: "OpenROAD is building a fully open-source RTL-to-GDS chip design flow — every tool needed to go from a hardware description to a manufactured silicon chip. First time in GSoC 2026. EDA (Electronic Design Automation) is a specialized industry with almost zero overlap with the typical GSoC applicant pool. The tools solve real hard problems (routing, floorplanning, timing closure) and the mentors are researchers and industry engineers who are actively grateful for help.",
+    needs: [
+      "Knowledge of digital circuits and chip design (HDL, RTL, synthesis, place-and-route) is a massive plus",
+      "Strong C++ — the entire toolchain is performance-critical C++",
+      "Python and Tcl for scripting and tool automation layers",
+      "Typical project: routing algorithm improvements, power analysis, floorplanning tools, OpenDB API improvements"
+    ]
+  },
+  {
+    id: 3,
+    name: "EROFS Filesystem",
+    tagline: "Modern image-based Linux kernel filesystem for containers & Android",
+    domain: "Systems / Low-level", dc: "systems",
+    dBg: "#1a0f30", dColor: "#a78bfa",
+    tags: ["C","Linux kernel","Containerd","gVisor","Android","FUSE"],
+    comp: 1, diff: 3, first: true,
+    filters: ["all","systems","first"],
+    desc: "EROFS (Enhanced Read-Only File System) is a kernel filesystem shipping in Android and used for Linux container image layers. First time in GSoC 2026. Kernel filesystem work is extreme — the codebase is kernel C, the debugging is hard, and the blast radius of a bug is an unbootable system. That difficulty is exactly why almost no one applies. If you've done OS coursework or worked with the Linux kernel before, this pool is nearly empty.",
+    needs: [
+      "Linux kernel development in C — VFS layer, block layer, kernel memory management",
+      "Familiarity with container runtimes (Containerd, Docker) or Android build internals",
+      "Typical project: compression improvements, overlay filesystem integration, container image optimization, FUSE userspace tools",
+      "Start point: read fs/erofs/ in the Linux kernel tree and build a test image with mkfs.erofs"
+    ]
+  },
+  {
+    id: 4,
+    name: "MLLAM",
+    tagline: "Research software for AI-powered weather and climate forecasting",
+    domain: "Science & Research", dc: "science",
+    dBg: "#0e1f3b", dColor: "#60a5fa",
+    tags: ["Python","PyTorch","Zarr","NumPy","NetCDF","xarray","ML"],
+    comp: 1, diff: 2, first: true,
+    filters: ["all","science","first"],
+    desc: "MLLAM builds machine learning infrastructure for weather and climate prediction — neural network models that replace or augment traditional numerical weather prediction (NWP) codes like ECMWF's IFS. Brand new to GSoC 2026. AI for weather forecasting is a genuine research frontier (see Google DeepMind's GraphCast, NVIDIA FourCastNet) but almost no typical ML student knows this subfield exists. Bridging PyTorch and atmospheric data formats is the core skill needed.",
+    needs: [
+      "Python with PyTorch or JAX for deep learning model training and evaluation",
+      "Zarr, NetCDF, xarray for reading and processing scientific atmospheric datasets",
+      "Any background in atmospheric science, numerical weather prediction, or climate modeling is an extraordinary differentiator",
+      "Typical project: training pipelines, dataset preprocessing tools, model benchmarking vs NWP baselines, Zarr-based data stores"
+    ]
+  },
+  {
+    id: 5,
+    name: "MalariaGEN",
+    tagline: "Malaria genomic epidemiology — open analysis tools for global health",
+    domain: "Science & Research", dc: "science",
+    dBg: "#0e1f3b", dColor: "#60a5fa",
+    tags: ["Python","GCS","Genomics","pandas","zarr","scikit-allel"],
+    comp: 1, diff: 2, first: true,
+    filters: ["all","science","first"],
+    desc: "MalariaGEN coordinates global genomic surveillance of Plasmodium falciparum and Anopheles mosquitoes to guide malaria control and vaccine strategies. First-time GSoC 2026. The org needs Python data engineers who can handle large-scale genomic datasets stored on Google Cloud. Biology + data engineering is a combination that almost no typical applicant has. Simply showing any genuine interest in global health or parasitology in your cover letter puts you in the top 5% of applicants instantly.",
+    needs: [
+      "Python data stack: pandas, numpy, zarr, scikit-allel, matplotlib",
+      "Google Cloud Storage (GCS) for working with large genomic datasets",
+      "Any background in biology, genetics, epidemiology, or global health is an incredible differentiator",
+      "Typical project: genomic data access API, population genetics analysis scripts, interactive visualization dashboards, documentation"
+    ]
+  },
+  {
+    id: 6,
+    name: "Stichting SU2",
+    tagline: "Open-source Computational Fluid Dynamics and multiphysics optimization",
+    domain: "Science & Research", dc: "science",
+    dBg: "#0e1f3b", dColor: "#60a5fa",
+    tags: ["C++","Python","CFD","PDE","HPC","MPI","Finite volume"],
+    comp: 1, diff: 3, first: false,
+    filters: ["all","science"],
+    desc: "SU2 is the world's most downloaded open-source CFD suite — used by NASA, Airbus, the Formula 1 teams, and hundreds of universities to simulate airflow, heat transfer, and structural mechanics. The math is serious (Navier-Stokes, Euler equations, adjoint-based gradient computation) and the codebase is high-performance C++ with MPI. Most CS students don't know what a Navier-Stokes equation is, let alone how to discretize one on an unstructured mesh — which is your moat.",
+    needs: [
+      "Strong C++ skills — the solver is HPC-grade code with MPI parallelism",
+      "Numerical methods background (finite volume methods, PDEs, unstructured meshes) is essential for research projects",
+      "Python for pre/post-processing scripts and the Python wrapper layer",
+      "Typical project: GPU acceleration (CUDA), turbulence model implementation, mesh adaptation, adjoint solver improvements"
+    ]
+  },
+  {
+    id: 7,
+    name: "gprMax",
+    tagline: "FDTD simulation of Ground Penetrating Radar electromagnetic waves",
+    domain: "Science & Research", dc: "science",
+    dBg: "#0e1f3b", dColor: "#60a5fa",
+    tags: ["Python","CUDA","MPI","OpenMP","C","FDTD","EM simulation"],
+    comp: 1, diff: 3, first: false,
+    filters: ["all","science"],
+    desc: "gprMax simulates Ground Penetrating Radar — electromagnetic pulses sent into the ground to detect buried pipes, cables, unexploded ordnance, and archaeological structures. It uses the FDTD (Finite-Difference Time-Domain) method to solve Maxwell's equations on a 3D grid. Used by civil engineers, archaeologists, geophysicists, and the military. The domain is so specialized that almost no one applying to GSoC will have heard of GPR or FDTD — but the coding work (Python, CUDA, MPI, HDF5) is very modern.",
+    needs: [
+      "Python as the primary interface and simulation scripting language",
+      "CUDA or OpenMP for GPU/CPU HPC parallelism (performance is critical for large 3D simulations)",
+      "Knowledge of electromagnetic theory, Maxwell's equations, or FDTD methods is a massive differentiator",
+      "Typical project: GPU performance improvements, new dielectric material models, 3D VTK visualization, OpenMP multi-threading"
+    ]
+  },
+  {
+    id: 8,
+    name: "LibreCube Initiative",
+    tagline: "Open-source software standards for CubeSats and spacecraft",
+    domain: "Science & Research", dc: "science",
+    dBg: "#0e1f3b", dColor: "#60a5fa",
+    tags: ["MicroPython","Python","MongoDB","REST APIs","Space","CCSDS"],
+    comp: 1, diff: 2, first: false,
+    filters: ["all","science"],
+    desc: "LibreCube builds open-source standards and software for small satellites (CubeSats) — ground station tools, mission control systems, and onboard software using MicroPython (because spacecraft software must be minimal and verifiable). The combination of space mission concepts + embedded Python + ground systems is genuinely unusual. The org is small enough that a motivated contributor can become a meaningful core member by the end of summer.",
+    needs: [
+      "Python and MicroPython for onboard flight software and ground tooling",
+      "REST APIs and MongoDB for mission control and ground station backend",
+      "Any knowledge of CubeSat systems, CCSDS telemetry/commanding standards, or spacecraft data handling is extremely valuable",
+      "Typical project: mission control UI features, ground station software components, onboard software modules, simulation and testing tools"
+    ]
+  },
+  {
+    id: 9,
+    name: "Cuneiform Digital Library Initiative (CDLI)",
+    tagline: "Digitizing and making accessible humanity's oldest written records",
+    domain: "Domain-specific", dc: "domain",
+    dBg: "#1f1100", dColor: "#fbbf24",
+    tags: ["PHP","MySQL","Java","JavaScript","NLP","Digital humanities"],
+    comp: 1, diff: 2, first: false,
+    filters: ["all","domain"],
+    desc: "CDLI digitizes and provides research access to over 500,000 cuneiform tablets — the oldest written records on Earth, from ancient Mesopotamia (Sumer, Akkad, Babylon). The project combines digital humanities, NLP, and database engineering. Almost no one applies because the subject sounds obscure, but the actual coding work is very modern: a PHP/MySQL web app, NLP tools for ancient language processing, and annotation interfaces used by scholars worldwide. The mentors are brilliant and deeply grateful for technical help.",
+    needs: [
+      "PHP and MySQL for the backend web application; JavaScript for the annotation frontend",
+      "Any interest in NLP applied to ancient languages (Sumerian/Akkadian NLP is a growing research area)",
+      "Java for some batch processing and tooling pipelines",
+      "Typical project: full-text search improvements, ATF cuneiform notation parser, NLP entity recognition models, UI enhancements for scholars"
+    ]
+  },
+  {
+    id: 10,
+    name: "GRAME — Faust DSL",
+    tagline: "Functional domain-specific language for audio signal processing",
+    domain: "Niche Languages", dc: "niche-lang",
+    dBg: "#0b2018", dColor: "#34d399",
+    tags: ["Faust DSL","C++","JavaScript","Rust","WebAssembly","Audio DSP"],
+    comp: 1, diff: 3, first: false,
+    filters: ["all","niche-lang"],
+    desc: "GRAME develops Faust — a purely functional domain-specific language for real-time audio signal processing that compiles to C++, WebAssembly, LLVM IR, JavaScript, and more. Faust is used in professional audio plugins, synthesizers, embedded DSP systems, and live performance rigs. The intersection of compiler design + digital signal processing + audio theory is tiny enough that most applicants haven't even heard of Faust. Learn it in a weekend from faust.grame.fr and you're already ahead of almost everyone.",
+    needs: [
+      "C++ for the Faust compiler internals and runtime library (the compiler is a C++ codebase)",
+      "Faust DSL — genuinely learnable in 2 weeks from the online documentation and playground",
+      "Web Audio API, WASM, or LLVM for different compiler backend targets",
+      "Typical project: new Faust compiler backends, VS Code IDE plugin, compiler optimizations, Faust2anything code generation scripts"
+    ]
+  },
+  {
+    id: 11,
+    name: "MoganLab",
+    tagline: "Structured academic writing editor built with C++, Qt, and Scheme",
+    domain: "Niche Languages", dc: "niche-lang",
+    dBg: "#0b2018", dColor: "#34d399",
+    tags: ["C++","Qt","Scheme","TeXmacs-style","Academic tools","Typesetting"],
+    comp: 1, diff: 2, first: true,
+    filters: ["all","niche-lang","first"],
+    desc: "MoganLab is building a structured document editor for academic and scientific writing — inspired by GNU TeXmacs — using C++, Qt for the GUI, and Scheme (a Lisp dialect) as the embedded scripting and macro language. Brand new to GSoC 2026. Very few students know Scheme, and fewer still have used TeXmacs-style structured editing. But the actual scope is learnable, the mentors are accessible, and being first-time means zero historical bias in who gets selected.",
+    needs: [
+      "C++ and Qt5/Qt6 for the main application interface and rendering layer",
+      "Scheme (Guile or a similar Lisp dialect) for document processing, macros, and scripting API",
+      "Interest in structured document formats, typesetting, LaTeX/MathML, or academic writing tools",
+      "Typical project: new document widget types, improved LaTeX/PDF export, Scheme API extensions, performance and startup improvements"
+    ]
+  },
+  {
+    id: 12,
+    name: "MoFA Org",
+    tagline: "Compositional AI agent framework with dataflow pipelines",
+    domain: "First-time / Rare", dc: "first",
+    dBg: "#1a1200", dColor: "#f0b429",
+    tags: ["Python","Rust","AI Agents","MCP","Dataflow","Multi-agent"],
+    comp: 2, diff: 2, first: true,
+    filters: ["all","first"],
+    desc: "MoFA is a brand-new organization building a compositional AI framework — modular, composable AI agent pipelines using a dataflow execution model. Think LangGraph-style agent orchestration but with a stronger theoretical basis in dataflow computing. First time in GSoC 2026 means zero historical community bias and fresh mentors. The risk: a less mature codebase and fewer examples to reference before applying. The upside: you're competing with almost nobody.",
+    needs: [
+      "Python for the main agent framework, pipeline definitions, and orchestration runtime",
+      "Rust for performance-critical components in the dataflow execution engine",
+      "Familiarity with AI agent frameworks (LangChain, AutoGen, LangGraph) provides useful context",
+      "Typical project: new agent node types, dataflow graph optimizations, MCP (Model Context Protocol) integration, developer tooling"
+    ]
+  },
+  {
+    id: 13,
+    name: "Measurement Lab (M-Lab)",
+    tagline: "The world's largest open internet performance measurement platform",
+    domain: "Science & Research", dc: "science",
+    dBg: "#0e1f3b", dColor: "#60a5fa",
+    tags: ["Python","Go","JavaScript","BigQuery","SQL","Network measurement"],
+    comp: 2, diff: 2, first: false,
+    filters: ["all","science"],
+    desc: "M-Lab runs the world's largest open internet measurement platform — NDT speed tests, latency measurements, and packet loss data used by academic researchers, internet regulators, and investigative journalists. The org sits at the intersection of network measurement, large-scale data engineering, and internet policy advocacy. Applicant pool is small because students don't think 'internet performance research' is exciting. That assumption is your competitive edge.",
+    needs: [
+      "Python or Go for backend data pipelines and measurement server development",
+      "JavaScript/HTML/CSS for the public-facing data visualization dashboard",
+      "BigQuery and SQL for analysis of the massive, publicly available M-Lab datasets",
+      "Typical project: new measurement metric visualizations, data pipeline improvements, anomaly detection, API tooling"
+    ]
+  },
+  {
+    id: 14,
+    name: "GeomScale",
+    tagline: "High-performance algorithms for geometric and statistical computing",
+    domain: "Science & Research", dc: "science",
+    dBg: "#0e1f3b", dColor: "#60a5fa",
+    tags: ["C++","Python","R","Convex geometry","MCMC","Statistics","Eigen"],
+    comp: 1, diff: 3, first: false,
+    filters: ["all","science"],
+    desc: "GeomScale builds high-performance software for sampling from convex geometric sets, computing polytope volumes, and performing geometric statistical inference — with applications in ML fairness (sampling from feasible solution spaces), computational finance (portfolio optimization), and computational biology. The math is serious: high-dimensional convex geometry, randomized algorithms, Markov Chain Monte Carlo. Few students know what 'sample uniformly from a convex polytope' means, and that's exactly your moat.",
+    needs: [
+      "Strong C++ with Eigen and Boost for performance-critical numerical algorithms",
+      "Python or R for high-level API bindings, demos, and Jupyter notebooks",
+      "Mathematical background in probability theory, computational geometry, and linear algebra — genuinely essential",
+      "Typical project: new MCMC sampling algorithms, GPU acceleration, ML fairness applications, improved R/Python bindings"
+    ]
+  },
+  {
+    id: 15,
+    name: "OSIPI — Open Science Initiative for Perfusion Imaging",
+    tagline: "Open Python tools for MRI-based blood flow and perfusion imaging",
+    domain: "Science & Research", dc: "science",
+    dBg: "#0e1f3b", dColor: "#60a5fa",
+    tags: ["Python","nibabel","pydicom","Git","Medical imaging","MRI","DCE-MRI"],
+    comp: 1, diff: 2, first: false,
+    filters: ["all","science"],
+    desc: "OSIPI builds open-source Python tools for perfusion imaging — MRI techniques that measure blood flow through tissues including the brain, heart, kidneys, and tumors. Used in clinical trials for cancer treatment monitoring and neurological research. The domain is so specialized that even most biomedical engineers won't know what DCE-MRI, ASL, or DSC-MRI stands for. The coding is approachable (Python, numpy, nibabel) but domain knowledge is the entire differentiator.",
+    needs: [
+      "Python: numpy, nibabel, pydicom, scipy, matplotlib — the standard medical imaging stack",
+      "Any background or genuine interest in MRI physics, perfusion physiology, or medical imaging is a massive differentiator",
+      "Git/GitHub for contributing standardized model implementations and test suites",
+      "Typical project: standardized perfusion model implementations (Tofts, Patlak), automated testing framework, tutorial notebooks"
+    ]
+  },
+  {
+    id: 16,
+    name: "QC-Devs",
+    tagline: "Sustainable open-source tools for quantum chemistry calculations",
+    domain: "Science & Research", dc: "science",
+    dBg: "#0e1f3b", dColor: "#60a5fa",
+    tags: ["C++","Python","Julia","DFT","HPC","Quantum chemistry","Molecular integrals"],
+    comp: 1, diff: 3, first: false,
+    filters: ["all","science"],
+    desc: "QC-Devs builds software for quantum chemistry calculations — density functional theory (DFT), wavefunction methods, molecular integral evaluation, and orbital analysis tools. These are the computational tools chemists and physicists use to simulate molecular reactions, predict spectra, and design drugs. Quantum chemistry + software engineering is an almost nonexistent combination in the typical GSoC applicant pool, making this org one of the emptiest on this entire list.",
+    needs: [
+      "Python (NumPy, SciPy) and C++ for core algorithm implementations and Python extension modules",
+      "Julia for some sub-projects (Julia is increasingly used in computational science)",
+      "Chemistry or physics background: DFT, Hartree-Fock, molecular orbitals, basis sets — essential to understand what you're implementing",
+      "Typical project: new molecular integral routines, GPU acceleration (CUDA/HIP), Python API improvements, documentation and tutorials"
+    ]
+  },
+  {
+    id: 17,
+    name: "Alaska (Medical Informatics)",
+    tagline: "DICOM and medical imaging interoperability tools",
+    domain: "Domain-specific", dc: "domain",
+    dBg: "#1f1100", dColor: "#fbbf24",
+    tags: ["Java","DICOM","MySQL","Medical imaging","HL7","FHIR"],
+    comp: 1, diff: 2, first: false,
+    filters: ["all","domain"],
+    desc: "Alaska develops open-source tools for medical data interoperability, centered on the DICOM standard — the universal format used by hospitals worldwide for CT scans, MRIs, X-rays, and ultrasounds. DICOM is everywhere in healthcare but almost no developer has worked with it. The org is relatively unknown, the applicant pool is tiny, and even demonstrating that you know what a DICOM UID or an IOD is puts you far above the competition.",
+    needs: [
+      "Java as the primary implementation language for the main tooling",
+      "DICOM standard knowledge (UIDs, IODs, DIMSE services, modality worklist) is an incredible differentiator",
+      "MySQL for patient and study data management",
+      "Typical project: DICOM viewer improvements, data anonymization (de-identification) tools, FHIR/HL7 interoperability layer, automated QA testing"
+    ]
+  },
+  {
+    id: 18,
+    name: "Accord Project",
+    tagline: "Open-source smart legal contracts and programmable law",
+    domain: "Domain-specific", dc: "domain",
+    dBg: "#1f1100", dColor: "#fbbf24",
+    tags: ["JavaScript","TypeScript","JSON","Ergo DSL","Legal tech","AI"],
+    comp: 2, diff: 2, first: false,
+    filters: ["all","domain"],
+    desc: "Accord Project builds open standards and tooling for programmable legal contracts — converting legal prose into machine-executable, formally verifiable code using a language called Ergo (a functional DSL for contract logic). The intersection of contract law semantics + functional programming is genuinely unusual. Very few applicants have any legal domain knowledge, and even a basic understanding of how contracts are structured (offer, acceptance, obligations, breaches) makes you stand out significantly.",
+    needs: [
+      "JavaScript/TypeScript for the main CLI toolchain, template engine, and web playground",
+      "JSON-based specification languages and the Accord Template Syntax for contract modeling",
+      "Interest in legal tech, smart contracts, NLP for legal documents, or blockchain (Hyperledger) is helpful",
+      "Typical project: AI-powered contract parsing and extraction, Cicero template engine features, VS Code extension, testing framework"
+    ]
+  },
+  {
+    id: 19,
+    name: "preCICE",
+    tagline: "Coupling library for multi-physics simulations (fluid-structure, heat-flow)",
+    domain: "Science & Research", dc: "science",
+    dBg: "#0e1f3b", dColor: "#60a5fa",
+    tags: ["C++","Python","MPI","HPC","Multi-physics","Simulation coupling"],
+    comp: 1, diff: 3, first: false,
+    filters: ["all","science"],
+    desc: "preCICE is a coupling library that lets different simulation solvers exchange boundary data — connecting a CFD code (OpenFOAM) with a structural mechanics code (CalculiX) so they can simulate aeroelastic wing deformation, or a fluid solver with a heat conduction solver for thermal-fluid coupling. Used in aerospace, wind energy, and biomedical engineering. Multi-physics simulation coupling is an extremely niche corner of HPC that almost no CS student has encountered. The codebase is clean, well-documented modern C++.",
+    needs: [
+      "C++ at a solid level — the library is clean modern C++17 and is actually a good codebase to learn from",
+      "Python for the Python bindings layer and tooling scripts",
+      "HPC and MPI knowledge is helpful for parallel coupling scenarios and scalability work",
+      "Typical project: new language bindings (Julia, Fortran), improved monitoring dashboard, performance benchmarking, documentation"
+    ]
+  },
+  {
+    id: 20,
+    name: "The P4 Language Consortium",
+    tagline: "Domain-specific language for programming network device data planes",
+    domain: "Niche Languages", dc: "niche-lang",
+    dBg: "#0b2018", dColor: "#34d399",
+    tags: ["P4 DSL","C++","LLVM","eBPF","Z3","Network programming"],
+    comp: 1, diff: 3, first: false,
+    filters: ["all","niche-lang","systems"],
+    desc: "P4 is a domain-specific language for programming the forwarding behavior of network switches, routers, and SmartNICs at line rate — telling the hardware exactly how to process packets. Used by Google, Meta, and Microsoft for custom data center networking fabrics. Almost no one outside of academic networking research knows P4 exists. Working on the P4 compiler (which uses LLVM for code generation and Z3 for formal verification) is advanced compiler engineering that the vast majority of GSoC applicants cannot do.",
+    needs: [
+      "Compiler/PL engineering background: LLVM IR, type systems, program analysis, or formal methods with Z3",
+      "P4 language itself — spend one day with p4lang.github.io/p4-spec before applying",
+      "eBPF for the Linux kernel-based P4 target (the p4c-ebpf backend)",
+      "Typical project: P4 compiler optimizations, new backends (eBPF, DPDK), formal verification tooling, improved test frameworks"
+    ]
+  },
+  {
+    id: 21,
+    name: "stdlib (JavaScript Numerical Library)",
+    tagline: "The NumPy of JavaScript — comprehensive numerical and scientific computing",
+    domain: "Niche Languages", dc: "niche-lang",
+    dBg: "#0b2018", dColor: "#34d399",
+    tags: ["JavaScript","C","TypeScript","Node.js","WebAssembly","Numerical computing"],
+    comp: 2, diff: 2, first: false,
+    filters: ["all","niche-lang"],
+    desc: "stdlib is a comprehensive standard library for numerical and scientific computing in JavaScript — filling the same gap that NumPy + SciPy fill for Python. It implements tens of thousands of functions in JavaScript and C, with WebAssembly targets for browser performance. The org is underrepresented because 'serious numerical computing in JavaScript' sounds unlikely to most applicants. That assumption is your competitive advantage — the project is real, well-maintained, and the mentors are excellent.",
+    needs: [
+      "JavaScript (Node.js) for the main function implementations and test suite",
+      "C for performance-critical BLAS-like numerical routines with Node.js native addons",
+      "WebAssembly (via Emscripten) for browser-performance-critical targets",
+      "Typical project: new statistical distributions, BLAS/LAPACK routine ports, numerical benchmark suite, PRNG implementations"
+    ]
+  },
+  {
+    id: 22,
+    name: "Ste||ar Group (HPX)",
+    tagline: "C++ runtime for asynchronous, distributed high-performance computing",
+    domain: "Systems / Low-level", dc: "systems",
+    dBg: "#1a0f30", dColor: "#a78bfa",
+    tags: ["C++","HPC","MPI","NUMA","Parallelism","Distributed computing","Coroutines"],
+    comp: 1, diff: 3, first: false,
+    filters: ["all","systems"],
+    desc: "The Ste||ar Group develops HPX — a C++ runtime that implements the C++ concurrency and parallelism model for massively parallel and distributed systems, targeting supercomputers and clusters. Used in astrophysics simulations, climate modeling, and large-scale engineering codes. The codebase is among the most sophisticated modern C++ anywhere: lock-free data structures, C++20 coroutines, template metaprogramming, NUMA-aware algorithms. Very few students apply — which is exactly your opening.",
+    needs: [
+      "Expert-level modern C++ (C++17/C++20): templates, async, coroutines, lock-free data structures",
+      "Parallel computing concepts: task-based parallelism, distributed systems, MPI, NUMA topology",
+      "Typical project: new C++ executor backends, GPU integration (CUDA/HIP), distributed algorithm implementations, performance analysis",
+      "This is genuinely hard — but the difficulty is precisely what keeps competition low"
+    ]
+  },
+  {
+    id: 23,
+    name: "KolibriOS Project Team",
+    tagline: "Tiny, fast OS written almost entirely in flat x86 FASM assembly",
+    domain: "Systems / Low-level", dc: "systems",
+    dBg: "#1a0f30", dColor: "#a78bfa",
+    tags: ["FASM","x86 Assembly","i386","OS dev","Bare metal","Drivers"],
+    comp: 1, diff: 3, first: false,
+    filters: ["all","systems"],
+    desc: "KolibriOS is a tiny operating system written almost entirely in flat x86 assembly (FASM). It boots from a 1.44MB floppy, has a full graphical GUI, networking, filesystem support, and runs on hardware with as little as 8MB of RAM. This is one of the most extreme GSoC organizations: FASM-only development, no POSIX, no standard libraries, everything written from scratch at the metal. Only a handful of people apply each year, because the barrier is assembly language. But for someone who has done OS coursework or competitive low-level programming, this is nearly uncontested.",
+    needs: [
+      "x86 assembly — specifically FASM (Flat Assembler), which has good documentation at flatassembler.net",
+      "OS internals: memory management (paging), interrupt handling, DMA, device driver architecture",
+      "Best entry point: write a small FASM utility application that runs on KolibriOS to prove you can build for the environment",
+      "Typical project: new device drivers (USB HID, network), graphics engine improvements, porting small C programs via a cross-compiler"
+    ]
+  },
+  {
+    id: 24,
+    name: "Learning Unlimited",
+    tagline: "Splash scheduling platform for pop-up educational events",
+    domain: "First-time / Rare", dc: "first",
+    dBg: "#1a1200", dColor: "#f0b429",
+    tags: ["Django","Python","HTML","CSS","JavaScript","PostgreSQL","Education"],
+    comp: 2, diff: 1, first: true,
+    filters: ["all","first"],
+    desc: "Learning Unlimited runs Splash — educational events where college students teach anything they want to high schoolers. Their platform manages class scheduling, student registration, teacher/volunteer coordination, and capacity constraints. First-time (or very rare) GSoC participant. The tech stack is approachable Django/Python, making this one of the most beginner-friendly entries on this list — but obscure enough to have very few applicants. If you're newer to open source, this is the safest bet on the list.",
+    needs: [
+      "Django (Python web framework) — this is the primary and almost entire stack",
+      "HTML/CSS/JavaScript for frontend improvements and mobile-responsive redesign",
+      "PostgreSQL for understanding the scheduling constraint and registration database schema",
+      "Typical project: improved class scheduling algorithm, mobile-responsive UI overhaul, new admin panel features, email notification system"
+    ]
+  },
+  {
+    id: 25,
+    name: "IOOS — Integrated Ocean Observing System",
+    tagline: "Open data infrastructure for US ocean, coastal, and Great Lakes monitoring",
+    domain: "Science & Research", dc: "science",
+    dBg: "#0e1f3b", dColor: "#60a5fa",
+    tags: ["Python","R","Java","NetCDF","Zarr","OGC","xarray","Oceanography"],
+    comp: 1, diff: 2, first: false,
+    filters: ["all","science"],
+    desc: "IOOS coordinates real-time ocean and coastal monitoring across the US — current meters, wave buoys, water temperature arrays, and water quality sensors. Their software handles ocean data standards including NetCDF, OGC WMS/WFS, THREDDS, and ERDDAP. Oceanography + data standards + Python is an extremely niche combination. Almost no CS students know what NetCDF CF Conventions or ERDDAP even are — but learning this takes one afternoon and signals to mentors that you're genuinely serious.",
+    needs: [
+      "Python scientific stack: xarray, zarr, NetCDF4, pandas, matplotlib, cartopy",
+      "Ocean/earth science data standards: NetCDF CF Conventions, OGC WMS/WFS, ERDDAP — a huge differentiator",
+      "R or Java for specific sub-projects (R data packages, Java-based THREDDS data server)",
+      "Typical project: improved ERDDAP client tooling, new data format support, interactive web visualization, sensor data validation pipelines"
+    ]
+  },
+  {
+    id: 26,
+    name: "SW360",
+    tagline: "Software supply chain and open-source license compliance management",
+    domain: "Domain-specific", dc: "domain",
+    dBg: "#1f1100", dColor: "#fbbf24",
+    tags: ["Java","JavaScript","TypeScript","CouchDB","SBOM","SPDX","CycloneDX"],
+    comp: 2, diff: 2, first: false,
+    filters: ["all","domain"],
+    desc: "SW360 is an enterprise-grade tool for tracking third-party open-source software components, their licenses, and known security vulnerabilities — SBOM (Software Bill of Materials) management in practice. Used by Bosch, BMW, Siemens, and other large European tech companies for compliance with EU open-source regulations. Low competition because 'license compliance tooling' isn't glamorous — but post-Log4Shell, SBOM requirements are one of the fastest-growing enterprise mandates globally.",
+    needs: [
+      "Java (Spring Boot) for the backend REST API, business logic, and license analysis engine",
+      "JavaScript/TypeScript for the frontend dashboard (React-based)",
+      "CouchDB as the primary document database; SQL for reporting",
+      "Typical project: SBOM import/export in CycloneDX and SPDX formats, REST API enhancements, GitHub Actions CI integration, UI improvements"
+    ]
+  },
+  {
+    id: 27,
+    name: "Konflux",
+    tagline: "Secure software supply chain pipelines — Kubernetes-native, first-time GSoC",
+    domain: "First-time / Rare", dc: "first",
+    dBg: "#1a1200", dColor: "#f0b429",
+    tags: ["Go","Kubernetes","Tekton","Sigstore","SBOM","DevSecOps","Python"],
+    comp: 2, diff: 2, first: true,
+    filters: ["all","first"],
+    desc: "Konflux (Red Hat's internal platform, now open-source) builds secure software build and release pipelines using Kubernetes-native tools — Tekton pipelines, Sigstore artifact signing, SBOM generation, and vulnerability scanning, all integrated in one DevSecOps platform. First-time GSoC 2026. DevSecOps tooling is one of the hottest career areas in enterprise software, but very few students contribute to open-source projects in this space — and Konflux specifically has almost zero prior GSoC applicant history.",
+    needs: [
+      "Go — the primary language for Kubernetes controllers, CLI tools, and Operator SDK components",
+      "Kubernetes: operators, CRDs, controllers, Tekton pipeline definitions",
+      "DevSecOps concepts: Sigstore (cosign/rekor), SBOM generation (Syft), OPA/Gatekeeper policy-as-code",
+      "Typical project: new Tekton pipeline templates, Sigstore attestation flows, policy-as-code improvements, integration testing infrastructure"
+    ]
+  },
+  {
+    id: 28,
+    name: "Metaflow",
+    tagline: "Netflix's open-source human-centric ML workflow framework",
+    domain: "First-time / Rare", dc: "first",
+    dBg: "#1a1200", dColor: "#f0b429",
+    tags: ["Python","Kubernetes","JavaScript","AWS","GCP","MLOps","React"],
+    comp: 2, diff: 2, first: true,
+    filters: ["all","first"],
+    desc: "Metaflow is Netflix's battle-tested open-source framework for managing production ML workflows — data versioning, compute scaling (from laptop to Kubernetes cluster), experiment tracking, and model deployment. First-time GSoC 2026. MLOps tooling is in massive demand but the applicant pool for Metaflow is tiny, since it's less hyped than MLflow or Kubeflow despite being arguably more production-proven and opinionated. Netflix engineers and Outerbounds engineers mentor directly.",
+    needs: [
+      "Python — the core library is Python-first, heavily decorator and step-based",
+      "Kubernetes or cloud infrastructure (AWS Batch, GCP, Azure) for compute scaling sub-projects",
+      "JavaScript and React for the Metaflow UI dashboard",
+      "Typical project: new cloud provider integrations, UI dashboard improvements, new step decorator features, Argo Workflows integration"
+    ]
+  },
+  {
+    id: 29,
+    name: "German Center for Open Source AI (GCOS AI)",
+    tagline: "Democratically governed, transparent AI for public benefit",
+    domain: "First-time / Rare", dc: "first",
+    dBg: "#1a1200", dColor: "#f0b429",
+    tags: ["Python","PyTorch","scikit-learn","AI governance","Open datasets","Model evaluation"],
+    comp: 2, diff: 2, first: true,
+    filters: ["all","first"],
+    desc: "GCOS AI is a new organization building transparent, open AI models and datasets governed by public interest rather than commercial incentives — think open-source AI with democratic oversight. First time in GSoC 2026. The focus is on responsible AI, open training data curation, model cards, bias auditing, and governance tooling. A completely different angle from mainstream AI orgs, and mentors are actively looking for people who care about the societal dimension of AI — not just benchmark scores.",
+    needs: [
+      "Python and PyTorch for model training, fine-tuning, and quantitative evaluation",
+      "scikit-learn and evaluation libraries (evaluate, lm-eval) for classical ML components",
+      "Genuine interest in AI ethics, model transparency, open-source AI policy, and governance tooling is highly valued — say so clearly",
+      "Typical project: open dataset curation pipelines, model evaluation and bias auditing frameworks, governance documentation tooling"
+    ]
+  },
+  {
+    id: 30,
+    name: "Frescobaldi",
+    tagline: "Graphical editor for GNU LilyPond music score notation",
+    domain: "Domain-specific", dc: "domain",
+    dBg: "#1f1100", dColor: "#fbbf24",
+    tags: ["Python","PyQt5","PyQt6","LilyPond","Music notation","Accessibility"],
+    comp: 1, diff: 1, first: false,
+    filters: ["all","domain"],
+    desc: "Frescobaldi is the main GUI editor for LilyPond — the text-based music notation language that produces engraving-quality sheet music as PDF. LilyPond users are composers, music publishers, academic musicologists, and music engravers who prefer the precision of coding over WYSIWYG editing. The org is tiny, rarely appears in GSoC lists, and the applicant pool is nearly empty. You'd ideally be either a musician who codes, or a developer genuinely curious about music technology. The Python/PyQt work is completely approachable.",
+    needs: [
+      "Python (PyQt5/PyQt6) for the main cross-platform GUI application",
+      "LilyPond notation language — genuinely learnable in a weekend from lilypond.org",
+      "Interest in music notation, digital typesetting, MIDI, audio playback, or accessibility for musicians",
+      "Typical project: live PDF preview performance, new editing features (auto-completion, syntax highlighting improvements), MIDI playback, accessibility improvements"
+    ]
+  }
+];
+
+// ─── Helpers ─────────────────────────────────────────────────────────
+function compColor(s) {
+  return s === 1 ? '#34d399' : s === 2 ? '#a3e635' : '#fbbf24';
+}
+function compLabel(s) {
+  return s === 1 ? 'Very low' : s === 2 ? 'Low' : 'Moderate';
+}
+function diffLabel(s) {
+  return s === 1 ? 'Beginner' : s === 2 ? 'Intermediate' : 'Advanced';
+}
+
+// ─── State ────────────────────────────────────────────────────────────
+var currentFilter = 'all';
+var openIds = {};
+
+// ─── Render ───────────────────────────────────────────────────────────
+function getList() {
+  var q = (document.getElementById('search').value || '').trim().toLowerCase();
+  var s = document.getElementById('sort').value;
+  var list = ORGS.filter(function(o) {
+    return o.filters.indexOf(currentFilter) > -1;
+  });
+  if (q) {
+    list = list.filter(function(o) {
+      return o.name.toLowerCase().indexOf(q) > -1
+          || o.tagline.toLowerCase().indexOf(q) > -1
+          || o.domain.toLowerCase().indexOf(q) > -1
+          || o.desc.toLowerCase().indexOf(q) > -1
+          || o.tags.some(function(t) { return t.toLowerCase().indexOf(q) > -1; });
+    });
+  }
+  list.sort(function(a, b) {
+    if (s === 'comp') return (a.comp - b.comp) || (a.diff - b.diff);
+    if (s === 'diff') return (a.diff - b.diff) || (a.comp - b.comp);
+    return a.name.localeCompare(b.name);
+  });
+  return list;
+}
+
+function renderGrid() {
+  var list = getList();
+  var grid = document.getElementById('grid');
+  var empty = document.getElementById('empty');
+  var count = document.getElementById('count');
+
+  count.textContent = list.length + (list.length === 1 ? ' org' : ' orgs');
+
+  if (list.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  var html = '';
+  for (var i = 0; i < list.length; i++) {
+    var o = list[i];
+    var isOpen = !!openIds[o.id];
+    var cc = compColor(o.comp);
+    var tagsHtml = '';
+    for (var j = 0; j < o.tags.length; j++) {
+      tagsHtml += '<span class="tag">' + o.tags[j] + '</span>';
+    }
+    tagsHtml += '<span class="comp-tag" style="background:' + cc + '1a;color:' + cc + ';border:1px solid ' + cc + '33;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:600;margin-left:auto">'
+             + compLabel(o.comp) + ' · ' + diffLabel(o.diff) + '</span>';
+
+    var needsHtml = '';
+    for (var k = 0; k < o.needs.length; k++) {
+      needsHtml += '<li>' + o.needs[k] + '</li>';
+    }
+
+    html += '<div class="card' + (isOpen ? ' open' : '') + '" role="listitem" id="card-' + o.id + '">'
+          + '<button class="card-toggle" data-id="' + o.id + '" aria-expanded="' + isOpen + '">'
+          +   '<div class="card-top">'
+          +     '<span class="dbadge" style="background:' + o.dBg + ';color:' + o.dColor + '">' + o.domain + '</span>'
+          +     '<div class="card-info">'
+          +       '<div class="name-row">'
+          +         '<span class="card-name">' + o.name + '</span>'
+          +         (o.first ? '<span class="first-chip">★ First-time</span>' : '')
+          +       '</div>'
+          +       '<div class="card-tagline">' + o.tagline + '</div>'
+          +     '</div>'
+          +     '<div class="card-right">'
+          +       '<div class="comp-row"><span class="cdot" style="background:' + cc + '"></span><span class="comp-text" style="color:' + cc + '">' + compLabel(o.comp) + '</span></div>'
+          +       '<div class="diff-text">' + diffLabel(o.diff) + '</div>'
+          +       '<span class="chevron">▾</span>'
+          +     '</div>'
+          +   '</div>'
+          +   '<div class="card-tags">' + tagsHtml + '</div>'
+          + '</button>'
+          + '<div class="card-body">'
+          +   '<div class="body-label">About this org</div>'
+          +   '<div class="body-desc">' + o.desc + '</div>'
+          +   '<div class="body-label">What you need to apply</div>'
+          +   '<ul class="needs">' + needsHtml + '</ul>'
+          +   '<a class="body-link" href="https://summerofcode.withgoogle.com/programs/2026/organizations" target="_blank" rel="noopener">View on GSoC 2026 ↗</a>'
+          + '</div>'
+          + '</div>';
+  }
+  grid.innerHTML = html;
+}
+
+// ─── Toggle card — event delegation on the grid ───────────────────────
+document.getElementById('grid').addEventListener('click', function(e) {
+  // Walk up from the tap target to find the button
+  var btn = e.target;
+  while (btn && btn.tagName !== 'BUTTON') {
+    btn = btn.parentElement;
+  }
+  if (!btn || !btn.dataset.id) return;
+  var id = parseInt(btn.dataset.id, 10);
+  if (openIds[id]) {
+    delete openIds[id];
+  } else {
+    openIds[id] = true;
+  }
+  var card = document.getElementById('card-' + id);
+  if (card) {
+    card.classList.toggle('open', !!openIds[id]);
+    var toggle = card.querySelector('.card-toggle');
+    if (toggle) toggle.setAttribute('aria-expanded', !!openIds[id]);
+  }
+});
+
+// ─── Filters ─────────────────────────────────────────────────────────
+document.getElementById('filters').addEventListener('click', function(e) {
+  var btn = e.target;
+  if (!btn.classList.contains('fbtn')) return;
+  currentFilter = btn.dataset.filter;
+  document.querySelectorAll('.fbtn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderGrid();
+});
+
+// ─── Search + Sort ────────────────────────────────────────────────────
+document.getElementById('search').addEventListener('input', function() { renderGrid(); });
+document.getElementById('sort').addEventListener('change', function() { renderGrid(); });
+
+// ─── Scroll to top ────────────────────────────────────────────────────
+var totop = document.getElementById('totop');
+window.addEventListener('scroll', function() {
+  totop.classList.toggle('show', window.scrollY > 400);
+}, { passive: true });
+totop.addEventListener('click', function(e) {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ─── Init ─────────────────────────────────────────────────────────────
+renderGrid();
+</script>
+</body>
+</html>
